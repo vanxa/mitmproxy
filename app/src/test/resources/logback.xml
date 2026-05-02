@@ -1,0 +1,14 @@
+<configuration scan="true" scanPeriod="1 minute">
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date %highlight(%level) [%thread] %logger{10} [%file:%line] [%X{}] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="${logger.level:-DEBUG}">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+
+</configuration>

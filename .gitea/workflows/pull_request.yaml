@@ -1,0 +1,49 @@
+name: WebApp Compile
+on: pull_request
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Parse build version
+        run: echo "VERSION=$(grep 'version' ./gradle.properties | cut -d '=' -f2)" >> $GITHUB_ENV
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+
+      - name: Setup Maven Repository
+        run: |
+          mkdir -p ~/.gradle
+          echo 'allprojects { repositories { maven { url "https://nexus.vanxacloud.com/repository/maven-public/" } } }' > ~/.gradle/init.gradle
+
+      - name: Compile, test and create package
+        run: ./gradlew clean build jacocoTestReport testCodeCoverageReport
+
+      - name: Diff Coverage
+        run: |
+          bash scripts/cicd/diff-code-coverage.sh -k ${{secrets.APIKEY}}
+
+      #      - name: Set up Docker Buildx
+      #        uses: actions/setup-buildx-action@v3
+      #        with:
+      #          driver-opts: network=host
+      #
+      #      - name: Build container
+      #        uses: actions/build-push-action@v6
+      #        with:
+      #          push: false
+      #          tags: nexus.vanxacloud.com/docker-snapshots/aetna-cloud:${{ env.VERSION }}
+      #          file: ./Dockerfile
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: App
+          path: ${{ gitea.workspace }}/app/build/distributions/proximity-${{ env.VERSION }}-bin.tar
+

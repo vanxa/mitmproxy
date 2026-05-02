@@ -1,0 +1,93 @@
+name: WebApp Compile
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Parse build version
+        run: echo "VERSION=$(grep 'version' ./gradle.properties | cut -d '=' -f2)" >> $GITHUB_ENV
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+
+      - name: Setup Maven Repository
+        run: |
+          mkdir -p ~/.gradle
+          echo 'allprojects { repositories { maven { url "https://nexus.vanxacloud.com/repository/maven-public/" } } }' > ~/.gradle/init.gradle
+
+      - name: Compile, test and create package
+        run: ./gradlew clean build jacocoTestReport testCodeCoverageReport
+
+      - name: Diff Coverage
+        run: |
+          bash scripts/cicd/diff-code-coverage.sh -k ${{secrets.APIKEY}}
+      
+
+      #      - name: Generate JaCoCo Badge
+      #        if: ${{ hashFiles('app/build/reports/jacoco/test/jacocoTestReport.csv') != '' }}
+      #        uses: actions/jacoco-badge-generator@v2
+      #        with:
+      #          generate-branches-badge: true
+      #          jacoco-csv-file: app/build/reports/jacoco/test/jacocoTestReport.csv
+      #          badges-directory: .github/badges
+      #          generate-coverage-badge: true
+      #          coverage-badge-filename: jacoco.svg
+      #          branches-badge-filename: branches.svg
+      #          generate-coverage-endpoint: false
+      #          coverage-endpoint-filename: jacoco.json
+      #          generate-branches-endpoint: false
+      #          branches-endpoint-filename: branches.json
+      #          generate-summary: false
+      #          summary-filename: coverage-summary.json
+      #          coverage-label: coverage
+      #          branches-label: branches
+      #          colors: '#4c1 #97ca00 #a4a61d #dfb317 #fe7d37 #e05d44'
+      #          intervals: 100 90 80 70 60 0
+      #          on-missing-report: fail
+      #          fail-if-coverage-less-than: 0
+      #          fail-if-branches-less-than: 0
+      #          fail-on-coverage-decrease: false
+      #          coverage-decrease-limit: 100
+      #          fail-on-branches-decrease: false
+      #          branches-decrease-limit: 100
+      #          generate-workflow-summary: true
+      #          workflow-summary-heading: JaCoCo Test Coverage Summary
+      #
+      #      - name: Commit Badge
+      #        run: |
+      #          git config --local user.email "idkonst@protonmail.com"
+      #          git config --local user.name "Ivan Konstantinov"
+      #          git commit .github -m "Add badge"
+      #          git push origin main
+      
+      #      - name: Set up Docker Buildx
+      #        uses: actions/setup-buildx-action@v3
+      #        with:
+      #          driver-opts: network=host
+      #
+      #      - name: Build container
+      #        uses: actions/build-push-action@v6
+      #        with:
+      #          push: false
+      #          tags: nexus.vanxacloud.com/docker-snapshots/aetna-cloud:${{ env.VERSION }}
+      #          file: ./Dockerfile
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: App
+          path: ${{ gitea.workspace }}/app/build/distributions/proximity-${{ env.VERSION }}-bin.tar
