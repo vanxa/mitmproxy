@@ -2,7 +2,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%date %highlight(%level) [%thread] %logger{10} [%file:%line] [%X{}] %msg%n</pattern>
+            <pattern>%date [%thread] [%file:%line] [%X{}] %highlight(%level) %logger{10} : %msg%n</pattern>
         </encoder>
     </appender>
 

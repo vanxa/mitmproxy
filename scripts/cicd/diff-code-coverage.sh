@@ -100,7 +100,7 @@ if [[ ! -f ${arg_r} ]]; then
   if [[ ! -z ${arg_k} ]];then
     sha=$(git log -1 --format=%H)
         curl -s -X 'POST' \
-          "https://git.vanxacloud.com/api/v1/repos/vanxacloud/aetna-cloud/statuses/${sha}" \
+          "https://git.vanxacloud.com/api/v1/repos/vanxacloud/appstudio/mitmproxy/statuses/${sha}" \
           -H 'accept: application/json' \
           -H "Authorization: token ${arg_k}" \
           -H 'Content-Type: application/json' \
