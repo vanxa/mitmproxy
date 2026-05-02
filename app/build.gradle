@@ -2,10 +2,6 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'jacoco-report-aggregation'
-
-    id 'org.springframework.boot' version '4.0.3'
-    id 'io.spring.dependency-management' version '1.1.7'
-    id 'org.openjfx.javafxplugin' version '0.1.0'
     id 'application'
     id 'org.javamodularity.moduleplugin' version '1.8.15'
     id 'org.beryx.jlink' version '2.25.0'
@@ -21,33 +17,9 @@ if (repositories.isEmpty()) {
 
 dependencies {
     jacocoAggregation project(':app')
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation("org.openjfx:javafx-controls:21.0.4")
-    implementation("org.openjfx:javafx-fxml:19")
-
-    implementation("org.controlsfx:controlsfx:11.2.2")
-    implementation("com.dlsc.formsfx:formsfx-core:11.6.0") {
-        exclude group: "org.openjfx"
-    }
-    implementation("net.synedra:validatorfx:0.6.3") {
-        exclude group: "org.openjfx"
-    }
-    implementation("org.kordamp.ikonli:ikonli-javafx:12.4.0")
-    implementation("eu.hansolo:tilesfx:21.0.9") {
-        exclude group: "org.openjfx"
-    }
-
-    implementation "fr.brouillard.oss:cssfx:11.4.0"
-
     implementation "org.apache.commons:commons-lang3:3.20.0"
     implementation("ch.qos.logback:logback-classic:1.5.32")
 
-
-    testImplementation("org.testfx:openjfx-monocle:21.0.2")
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation "org.testfx:testfx-core:4.0.18"
-    testImplementation "org.testfx:testfx-junit5:4.0.18"
-    testImplementation 'org.assertj:assertj-core:3.27.7'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation('org.junit.jupiter:junit-jupiter')
     testRuntimeOnly('org.junit.platform:junit-platform-launcher')
@@ -56,30 +28,19 @@ dependencies {
 test {
     finalizedBy jacocoTestReport // report is always generated after tests run
     useJUnitPlatform()
-    jvmArgs "-Djava.awt.headless=true", "-Dtestfx.robot=glass", "-Dtestfx.headless=true", "-Dprism.order=sw", "-Dprism.text=t2k"
-}
-
-javafx {
-    version = "21.0.6"
-    modules = ["javafx.controls", "javafx.fxml", "javafx.web", "javafx.swing", "javafx.media"]
 }
 
 application {
-//    mainModule.set("com.vanxacloud.appstudio.proximity")
-    mainClass.set("com.vanxacloud.appstudio.proximity.ProximityApplication")
+    mainModule.set("com.vanxacloud.appstudio.mtlmproxy")
+    mainClass.set("com.vanxacloud.appstudio.mtlmproxy.Main")
 }
 
 distributions {
     main {
-        distributionBaseName = 'proximity'
+        distributionBaseName = 'mtlmproxy'
         distributionClassifier = 'bin'
     }
 }
-
-bootRun {
-    jvmArgs = ['-Djavafx.preloader=com.vanxacloud.appstudio.proximity.fx.splash.SplashPreloader']
-}
-
 
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report

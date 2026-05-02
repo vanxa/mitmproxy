@@ -1,3 +1,0 @@
-spring.main.web-application-type=none
-com.vanxacloud.appstudio.proximity.test=INFO
-logger.level=ERROR

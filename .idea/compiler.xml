@@ -5,6 +5,9 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mtlmproxy.app" options="-parameters" />
+      <module name="mtlmproxy.app.main" options="-parameters" />
+      <module name="mtlmproxy.app.test" options="-parameters" />
       <module name="proximity.app" options="-parameters" />
       <module name="proximity.app.main" options="-parameters" />
       <module name="proximity.app.test" options="-parameters" />

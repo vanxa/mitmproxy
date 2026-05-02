@@ -16,6 +16,7 @@
 # as you leave these references intact in the header comments of your source files.
 
 # Exit on error. Append "|| true" if you expect an error.
+# Exit on error. Append "|| true" if you expect an error.
 #set -o errexit
 # Exit on error inside any functions or subshells.
 set -o errtrace

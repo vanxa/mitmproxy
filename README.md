@@ -20,23 +20,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/vanxa/proximity">
+  <a href="https://github.com/vanxa/mtlmproxy">
     <img src="images/logo.png" alt="Logo" width="50%" height="50%">
   </a>
 
-<h3 align="center">Proximity</h3>
+<h3 align="center">MTLMProxy</h3>
 
   <p style="text-align: center">
     project_description
     <br />
-    <a href="https://github.com/vanxa/proximity"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/vanxa/mtlmproxy"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/vanxa/proximity">View Demo</a>
+    <a href="https://github.com/vanxa/mtlmproxy">View Demo</a>
     &middot;
-    <a href="https://github.com/vanxa/proximity/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/vanxa/mtlmproxy/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/vanxa/proximity/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/vanxa/mtlmproxy/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -107,7 +107,7 @@ This is an example of how to list things you need to use the software and how to
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
-   git clone https://github.com/vanxa/proximity.git
+   git clone https://github.com/vanxa/mtlmproxy.git
    ```
 3. Install NPM packages
    ```sh
@@ -119,7 +119,7 @@ This is an example of how to list things you need to use the software and how to
    ```
 5. Change git remote url to avoid accidental pushes to base project
    ```sh
-   git remote set-url origin vanxa/proximity
+   git remote set-url origin vanxa/mtlmproxy
    git remote -v # confirm the changes
    ```
 
@@ -146,7 +146,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [ ] Feature 3
     - [ ] Nested Feature
 
-See the [open issues](https://github.com/vanxa/proximity/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/vanxa/mtlmproxy/issues) for a full list of proposed features (and known issues).
 
 <p style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -170,8 +170,8 @@ Don't forget to give the project a star! Thanks again!
 
 ### Top contributors:
 
-<a href="https://github.com/vanxa/proximity/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=vanxa/proximity" alt="contrib.rocks image" />
+<a href="https://github.com/vanxa/mtlmproxy/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=vanxa/mtlmproxy" alt="contrib.rocks image" />
 </a>
 
 
@@ -190,7 +190,7 @@ Distributed under the project_license. See `LICENSE.txt` for more information.
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
-Project Link: [https://github.com/vanxa/proximity](https://github.com/vanxa/proximity)
+Project Link: [https://github.com/vanxa/mtlmproxy](https://github.com/vanxa/mtlmproxy)
 
 <p style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -209,16 +209,16 @@ Project Link: [https://github.com/vanxa/proximity](https://github.com/vanxa/prox
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[forks-shield]: https://img.shields.io/github/forks/vanxa/proximity.svg?style=for-the-badge
-[forks-url]: https://github.com/vanxa/proximity/network/members
-[issues-shield]: https://img.shields.io/github/issues/vanxa/proximity.svg?style=for-the-badge
-[issues-url]: https://github.com/vanxa/proximity/issues
-[contributors-shield]: https://img.shields.io/github/contributors/vanxa/proximity.svg?style=for-the-badge
-[contributors-url]: https://github.com/vanxa/proximity/graphs/contributors
-[stars-shield]: https://img.shields.io/github/stars/vanxa/proximity.svg?style=for-the-badge
-[stars-url]: https://github.com/vanxa/proximity/stargazers
-[license-shield]: https://img.shields.io/github/license/vanxa/proximity.svg?style=for-the-badge
-[license-url]: https://github.com/vanxa/proximity/blob/master/LICENSE.txt
+[forks-shield]: https://img.shields.io/github/forks/vanxa/mtlmproxy.svg?style=for-the-badge
+[forks-url]: https://github.com/vanxa/mtlmproxy/network/members
+[issues-shield]: https://img.shields.io/github/issues/vanxa/mtlmproxy.svg?style=for-the-badge
+[issues-url]: https://github.com/vanxa/mtlmproxy/issues
+[contributors-shield]: https://img.shields.io/github/contributors/vanxa/mtlmproxy.svg?style=for-the-badge
+[contributors-url]: https://github.com/vanxa/mtlmproxy/graphs/contributors
+[stars-shield]: https://img.shields.io/github/stars/vanxa/mtlmproxy.svg?style=for-the-badge
+[stars-url]: https://github.com/vanxa/mtlmproxy/stargazers
+[license-shield]: https://img.shields.io/github/license/vanxa/mtlmproxy.svg?style=for-the-badge
+[license-url]: https://github.com/vanxa/mtlmproxy/blob/master/LICENSE.txt
 <!-- Shields.io badges. You can a comprehensive list with many more badges at: https://github.com/inttter/md-badges -->
 
 [Java.com]: https://img.shields.io/badge/Java%2021-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white

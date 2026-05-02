@@ -90,4 +90,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: App
-          path: ${{ gitea.workspace }}/app/build/distributions/proximity-${{ env.VERSION }}-bin.tar
+          path: ${{ gitea.workspace }}/app/build/distributions/mtlmproxy-${{ env.VERSION }}-bin.tar
