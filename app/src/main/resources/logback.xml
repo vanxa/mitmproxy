@@ -6,7 +6,7 @@
         </encoder>
     </appender>
 
-    <root level="${logger.level:-DEBUG}">
+    <root level="${mitmproxy.logger.level:-INFO}">
         <appender-ref ref="STDOUT"/>
     </root>
 

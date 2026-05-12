@@ -1,7 +1,7 @@
 package com.vanxacloud.appstudio.mitmproxy.cli;
 
 import ch.qos.logback.classic.Level;
-import com.vanxacloud.appstudio.mitmproxy.Proxy;
+import com.vanxacloud.appstudio.mitmproxy.ProxyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
@@ -20,8 +20,8 @@ public class MitmProxyCli implements Runnable {
 
     @Override
     public void run() {
-        Proxy proxy = new Proxy.Builder().port(port).build();
-        proxy.listen();
+        ProxyServer proxyServer = new ProxyServer.Builder().port(port).build();
+        proxyServer.start();
     }
 
     @CommandLine.Option(names = "-v", description = "Increase log verbosity. Eg. -vvv for TRACE", scope = CommandLine.ScopeType.INHERIT)

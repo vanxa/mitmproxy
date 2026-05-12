@@ -4,7 +4,18 @@
 [versions]
 junit-jupiter = "5.10.0"
 picocli = "4.7.7"
+logback = "1.5.32"
+apache-lang3 = "3.20.0"
+jetty="12.1.9"
 
 [libraries]
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+apache-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "apache-lang3"}
+jetty-server = { module = "org.eclipse.jetty:jetty-server", version.ref = "jetty" }
+jetty-servlet = { module = "org.eclipse.jetty.ee10:jetty-ee10-servlet", version.ref = "jetty" }
+jetty-proxy = { module = "org.eclipse.jetty:jetty-proxy", version.ref = "jetty" }
+
+[bundles]
+jetty = ["jetty-server", "jetty-servlet", "jetty-proxy"]
