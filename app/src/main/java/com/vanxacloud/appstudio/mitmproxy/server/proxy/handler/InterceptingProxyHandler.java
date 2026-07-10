@@ -1,7 +1,6 @@
 package com.vanxacloud.appstudio.mitmproxy.server.proxy.handler;
 
 import org.eclipse.jetty.client.Result;
-import org.eclipse.jetty.http.HttpField;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.io.Content;
@@ -10,24 +9,25 @@ import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.util.BufferUtil;
 import org.eclipse.jetty.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-public class InterceptingProxyHandler extends ProxyHandler {
+public class InterceptingProxyHandler extends ProxyHandler.Forward {
 
     private static final Logger log = LoggerFactory.getLogger(InterceptingProxyHandler.class);
 
     @Override
     public boolean handle(Request clientToProxyRequest, Response proxyToClientResponse, Callback proxyToClientCallback) {
-        for(Connector connector : getServer().getConnectors()) {
-            if(connector instanceof ServerConnector serverConnector) {
+        for (Connector connector : getServer().getConnectors()) {
+            if (connector instanceof ServerConnector serverConnector) {
                 HttpURI uri = clientToProxyRequest.getHttpURI();
-                if(serverConnector.getPort() == uri.getPort() && Arrays.asList("localhost", "::1", serverConnector.getHost()).contains(uri.getHost())) {
+                if (serverConnector.getPort() == uri.getPort() && Arrays.asList("localhost", "::1", serverConnector.getHost()).contains(uri.getHost())) {
                     log.warn("Request destination unknown. Unable to figure out where to forward request to.");
                     Response.writeError(clientToProxyRequest, proxyToClientResponse, null, HttpStatus.BAD_GATEWAY_502);
                     return false;
@@ -35,143 +35,72 @@ public class InterceptingProxyHandler extends ProxyHandler {
             }
         }
 
+
         return super.handle(clientToProxyRequest, proxyToClientResponse, proxyToClientCallback);
     }
 
     @Override
-    protected HttpURI rewriteHttpURI(Request clientToProxyRequest) {
-        return clientToProxyRequest.getHttpURI();
+    protected org.eclipse.jetty.client.Response.CompleteListener newServerToProxyResponseListener(Request clientToProxyRequest, org.eclipse.jetty.client.Request proxyToServerRequest,
+                                                                                                  Response proxyToClientResponse, Callback proxyToClientCallback) {
+        return new InterceptingProxyResponseListener(clientToProxyRequest, proxyToServerRequest, proxyToClientResponse, proxyToClientCallback);
     }
 
-    protected class ProxyResponseListener extends Callback.Completable implements org.eclipse.jetty.client.Response.Listener
-    {
-        private final Request clientToProxyRequest;
-        private final org.eclipse.jetty.client.Request proxyToServerRequest;
-        private final Response proxyToClientResponse;
-        private final Callback proxyToClientCallback;
+    protected org.eclipse.jetty.client.Request newProxyToServerRequest(Request clientToProxyRequest, HttpURI newHttpURI) {
+        log.info("{} {}", clientToProxyRequest.getMethod(), newHttpURI);
+        return super.newProxyToServerRequest(clientToProxyRequest, newHttpURI);
+    }
 
-        public ProxyResponseListener(Request clientToProxyRequest, org.eclipse.jetty.client.Request proxyToServerRequest, Response proxyToClientResponse, Callback proxyToClientCallback)
-        {
-            super(InvocationType.NON_BLOCKING);
-            this.clientToProxyRequest = clientToProxyRequest;
-            this.proxyToServerRequest = proxyToServerRequest;
-            this.proxyToClientResponse = proxyToClientResponse;
-            this.proxyToClientCallback = proxyToClientCallback;
+    @Override
+    protected void copyRequestHeaders(Request clientToProxyRequest, org.eclipse.jetty.client.Request proxyToServerRequest) {
+        clientToProxyRequest.getHeaders().forEach(httpField -> log.info(httpField.toString()));
+        super.copyRequestHeaders(clientToProxyRequest, proxyToServerRequest);
+    }
+
+    @Override
+    protected void addProxyHeaders(Request clientToProxyRequest, org.eclipse.jetty.client.Request proxyToServerRequest) {
+        // Remove the proxy-specific headers as we don't need them
+    }
+
+    @Override
+    protected org.eclipse.jetty.client.Request.Content newProxyToServerRequestContent(Request clientToProxyRequest, Response proxyToClientResponse, org.eclipse.jetty.client.Request proxyToServerRequest) {
+        return super.newProxyToServerRequestContent(clientToProxyRequest, proxyToClientResponse, proxyToServerRequest);
+    }
+
+    protected class InterceptingProxyResponseListener extends ProxyResponseListener {
+
+        public InterceptingProxyResponseListener(Request clientToProxyRequest, org.eclipse.jetty.client.Request proxyToServerRequest, Response proxyToClientResponse, Callback proxyToClientCallback) {
+            super(clientToProxyRequest, proxyToServerRequest, proxyToClientResponse, proxyToClientCallback);
         }
 
         @Override
-        public void onBegin(org.eclipse.jetty.client.Response serverToProxyResponse)
-        {
-            proxyToClientResponse.setStatus(serverToProxyResponse.getStatus());
+        public void onHeaders(org.eclipse.jetty.client.Response serverToProxyResponse) {
+            serverToProxyResponse.getHeaders().forEach(httpField -> log.info(httpField.toString()));
+            super.onHeaders(serverToProxyResponse);
+
+            // Modify serverToProxyResponse headers when injection rules are set
         }
 
         @Override
-        public void onHeaders(org.eclipse.jetty.client.Response serverToProxyResponse)
-        {
-            if (log.isDebugEnabled())
-            {
-                log.debug("""
-                        {} S2P received response
-                        {}
-                        {}""",
-                        requestId(clientToProxyRequest),
-                        serverToProxyResponse,
-                        serverToProxyResponse.getHeaders());
-            }
-            for (HttpField serverToProxyResponseField : serverToProxyResponse.getHeaders())
-            {
-                if (HOP_HEADERS.contains(serverToProxyResponseField.getHeader()))
-                    continue;
-                HttpField newField = filterServerToProxyResponseField(serverToProxyResponseField);
-                if (newField == null)
-                    continue;
-                proxyToClientResponse.getHeaders().add(newField);
-            }
-            if (log.isDebugEnabled())
-            {
-                log.debug("""
-                        {} P2C sending response
-                        {}
-                        {}""",
-                        requestId(clientToProxyRequest),
-                        proxyToClientResponse,
-                        proxyToClientResponse.getHeaders());
-            }
+        public void onContent(org.eclipse.jetty.client.Response serverToProxyResponse, Content.Chunk serverToProxyChunk, Runnable serverToProxyDemander) {
+            // Create a duplicate view
+            ByteBuffer view = serverToProxyChunk.getByteBuffer().duplicate();
+            CharBuffer charBuffer = StandardCharsets.UTF_8.decode(view);
+            String str = charBuffer.toString();
+
+            log.info("Content {}", str);
+            super.onContent(serverToProxyResponse, serverToProxyChunk, serverToProxyDemander);
         }
 
         @Override
-        public void onContent(org.eclipse.jetty.client.Response serverToProxyResponse, Content.Chunk serverToProxyChunk, Runnable serverToProxyDemander)
-        {
-            ByteBuffer serverToProxyContent = serverToProxyChunk.getByteBuffer();
-            if (log.isDebugEnabled())
-                log.debug("{} S2P received content {}", requestId(clientToProxyRequest), BufferUtil.toDetailString(serverToProxyContent));
-
-            serverToProxyChunk.retain();
-            Callback callback = new Callback()
-            {
-                @Override
-                public void succeeded()
-                {
-                    if (log.isDebugEnabled())
-                        log.debug("{} P2C succeeded to write content {}", requestId(clientToProxyRequest), BufferUtil.toDetailString(serverToProxyContent));
-                    serverToProxyChunk.release();
-                    serverToProxyDemander.run();
-                }
-
-                @Override
-                public void failed(Throwable failure)
-                {
-                    if (log.isDebugEnabled())
-                        log.debug("{} P2C failed to write content {}", requestId(clientToProxyRequest), BufferUtil.toDetailString(serverToProxyContent), failure);
-                    serverToProxyChunk.release();
-                    // Cannot write towards the client, abort towards the server.
-                    serverToProxyResponse.abort(failure);
-                }
-
-                @Override
-                public InvocationType getInvocationType()
-                {
-                    return InvocationType.NON_BLOCKING;
-                }
-            };
-
-            proxyToClientResponse.write(false, serverToProxyContent, callback);
+        public void onSuccess(org.eclipse.jetty.client.Response serverToProxyResponse) {
+            log.info("Intercepted OnSuccess from Server");
+            super.onSuccess(serverToProxyResponse);
         }
 
         @Override
-        public void onSuccess(org.eclipse.jetty.client.Response serverToProxyResponse)
-        {
-            proxyToClientResponse.write(true, BufferUtil.EMPTY_BUFFER, this);
-        }
-
-        @Override
-        public void onComplete(Result result)
-        {
-            if (result.isSucceeded())
-            {
-                // Wait for the last write to complete.
-                whenComplete((r, failure) ->
-                {
-                    if (failure == null)
-                    {
-                        if (log.isDebugEnabled())
-                            log.debug("{} P2C response complete {}", requestId(clientToProxyRequest), proxyToClientResponse);
-                        onProxyToClientResponseComplete(clientToProxyRequest, proxyToServerRequest, result.getResponse(), proxyToClientResponse, proxyToClientCallback);
-                    }
-                    else
-                    {
-                        if (log.isDebugEnabled())
-                            log.debug("{} P2C response failure {}", requestId(clientToProxyRequest), proxyToClientResponse, failure);
-                        onProxyToClientResponseFailure(clientToProxyRequest, proxyToServerRequest, result.getResponse(), proxyToClientResponse, proxyToClientCallback, failure);
-                    }
-                });
-            }
-            else
-            {
-                if (log.isDebugEnabled())
-                    log.debug("{} S2P failure {}", requestId(clientToProxyRequest), result.getResponse(), result.getFailure());
-                onServerToProxyResponseFailure(clientToProxyRequest, proxyToServerRequest, result.getResponse(), proxyToClientResponse, proxyToClientCallback, result.getFailure());
-            }
+        public void onComplete(Result result) {
+            log.info("Intercepted OnComplete from Server");
+            super.onComplete(result);
         }
     }
 }
