@@ -20,23 +20,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/vanxa/mtlmproxy">
+  <a href="https://github.com/vanxa/mitmproxy">
     <img src="images/logo.png" alt="Logo" width="50%" height="50%">
   </a>
 
-<h3 align="center">MTLMProxy</h3>
+<h3 align="center">mitmProxy</h3>
 
   <p style="text-align: center">
     project_description
     <br />
-    <a href="https://github.com/vanxa/mtlmproxy"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/vanxa/mitmproxy"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/vanxa/mtlmproxy">View Demo</a>
+    <a href="https://github.com/vanxa/mitmproxy">View Demo</a>
     &middot;
-    <a href="https://github.com/vanxa/mtlmproxy/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/vanxa/mitmproxy/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/vanxa/mtlmproxy/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/vanxa/mitmproxy/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -71,13 +71,13 @@
 
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
-Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`, `project_license`
+Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`,
+`email_client`, `email`, `project_title`, `project_description`, `project_license`
 
 <p style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -89,6 +89,7 @@ Here's a blank template to get started. To avoid retyping too much info, do a se
 
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
@@ -97,6 +98,7 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
+
 * npm
   ```sh
   npm install npm@latest -g
@@ -107,7 +109,7 @@ This is an example of how to list things you need to use the software and how to
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
-   git clone https://github.com/vanxa/mtlmproxy.git
+   git clone https://github.com/vanxa/mitmproxy.git
    ```
 3. Install NPM packages
    ```sh
@@ -119,7 +121,7 @@ This is an example of how to list things you need to use the software and how to
    ```
 5. Change git remote url to avoid accidental pushes to base project
    ```sh
-   git remote set-url origin vanxa/mtlmproxy
+   git remote set-url origin vanxa/mitmproxy
    git remote -v # confirm the changes
    ```
 
@@ -128,6 +130,7 @@ This is an example of how to list things you need to use the software and how to
 
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
@@ -139,6 +142,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 
 <!-- ROADMAP -->
+
 ## Roadmap
 
 - [ ] Feature 1
@@ -146,13 +150,14 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [ ] Feature 3
     - [ ] Nested Feature
 
-See the [open issues](https://github.com/vanxa/mtlmproxy/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/vanxa/mitmproxy/issues) for a full list of proposed features (and known issues).
 
 <p style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -170,13 +175,14 @@ Don't forget to give the project a star! Thanks again!
 
 ### Top contributors:
 
-<a href="https://github.com/vanxa/mtlmproxy/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=vanxa/mtlmproxy" alt="contrib.rocks image" />
+<a href="https://github.com/vanxa/mitmproxy/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=vanxa/mitmproxy" alt="contrib.rocks image" />
 </a>
 
 
 
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the project_license. See `LICENSE.txt` for more information.
@@ -186,17 +192,19 @@ Distributed under the project_license. See `LICENSE.txt` for more information.
 
 
 <!-- CONTACT -->
+
 ## Contact
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
-Project Link: [https://github.com/vanxa/mtlmproxy](https://github.com/vanxa/mtlmproxy)
+Project Link: [https://github.com/vanxa/mitmproxy](https://github.com/vanxa/mitmproxy)
 
 <p style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- ACKNOWLEDGMENTS -->
+
 ## Acknowledgments
 
 * []()
@@ -209,19 +217,32 @@ Project Link: [https://github.com/vanxa/mtlmproxy](https://github.com/vanxa/mtlm
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[forks-shield]: https://img.shields.io/github/forks/vanxa/mtlmproxy.svg?style=for-the-badge
-[forks-url]: https://github.com/vanxa/mtlmproxy/network/members
-[issues-shield]: https://img.shields.io/github/issues/vanxa/mtlmproxy.svg?style=for-the-badge
-[issues-url]: https://github.com/vanxa/mtlmproxy/issues
-[contributors-shield]: https://img.shields.io/github/contributors/vanxa/mtlmproxy.svg?style=for-the-badge
-[contributors-url]: https://github.com/vanxa/mtlmproxy/graphs/contributors
-[stars-shield]: https://img.shields.io/github/stars/vanxa/mtlmproxy.svg?style=for-the-badge
-[stars-url]: https://github.com/vanxa/mtlmproxy/stargazers
-[license-shield]: https://img.shields.io/github/license/vanxa/mtlmproxy.svg?style=for-the-badge
-[license-url]: https://github.com/vanxa/mtlmproxy/blob/master/LICENSE.txt
+
+[forks-shield]: https://img.shields.io/github/forks/vanxa/mitmproxy.svg?style=for-the-badge
+
+[forks-url]: https://github.com/vanxa/mitmproxy/network/members
+
+[issues-shield]: https://img.shields.io/github/issues/vanxa/mitmproxy.svg?style=for-the-badge
+
+[issues-url]: https://github.com/vanxa/mitmproxy/issues
+
+[contributors-shield]: https://img.shields.io/github/contributors/vanxa/mitmproxy.svg?style=for-the-badge
+
+[contributors-url]: https://github.com/vanxa/mitmproxy/graphs/contributors
+
+[stars-shield]: https://img.shields.io/github/stars/vanxa/mitmproxy.svg?style=for-the-badge
+
+[stars-url]: https://github.com/vanxa/mitmproxy/stargazers
+
+[license-shield]: https://img.shields.io/github/license/vanxa/mitmproxy.svg?style=for-the-badge
+
+[license-url]: https://github.com/vanxa/mitmproxy/blob/master/LICENSE.txt
 <!-- Shields.io badges. You can a comprehensive list with many more badges at: https://github.com/inttter/md-badges -->
 
 [Java.com]: https://img.shields.io/badge/Java%2021-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
+
 [Java-url]: https://openjdk.org/
+
 [Gitea.com]: https://img.shields.io/badge/Gitea-6eaa5b?logo=gitea&logoColor=fff
+
 [Gitea-url]: https://gitea.com
