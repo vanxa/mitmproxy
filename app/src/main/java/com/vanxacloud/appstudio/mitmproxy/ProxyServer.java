@@ -51,7 +51,8 @@ public class ProxyServer {
             server.start();
             server.join();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Caught exception while starting proxy server", e);
+            throw new RuntimeException(e);
         }
 
     }
@@ -74,9 +75,5 @@ public class ProxyServer {
         public ProxyServer build() {
             return new ProxyServer(this);
         }
-    }
-
-    public static void main(String[] args) {
-        new ProxyServer(8080).start();
     }
 }

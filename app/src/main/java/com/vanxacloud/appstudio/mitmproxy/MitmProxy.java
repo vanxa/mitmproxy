@@ -1,14 +1,13 @@
-package com.vanxacloud.appstudio.mitmproxy.cli;
+package com.vanxacloud.appstudio.mitmproxy;
 
 import ch.qos.logback.classic.Level;
-import com.vanxacloud.appstudio.mitmproxy.ProxyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
 @CommandLine.Command(name = "mitmproxy", subcommands = {
         CommandLine.HelpCommand.class}, description = "mitmproxy")
-public class MitmProxyCli implements Runnable {
+public class MitmProxy implements Runnable {
 
     public static final Logger log = LoggerFactory.getLogger("mitmproxy");
 
@@ -46,7 +45,7 @@ public class MitmProxyCli implements Runnable {
                     .getSimpleName(), ex.getMessage());
             return ERR_DEFAULT;
         };
-        System.exit(new CommandLine(new MitmProxyCli()).setExecutionExceptionHandler(handler).execute(args));
+        System.exit(new CommandLine(new MitmProxy()).setExecutionExceptionHandler(handler).execute(args));
     }
 
 }

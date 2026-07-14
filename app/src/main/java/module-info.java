@@ -6,8 +6,9 @@ module app {
     requires org.eclipse.jetty.ee10.servlet;
     requires org.eclipse.jetty.proxy;
     requires org.apache.commons.lang3;
-
-    opens com.vanxacloud.appstudio.mitmproxy.cli to info.picocli;
+    requires com.googlecode.lanterna;
+    requires java.desktop;
 
     exports com.vanxacloud.appstudio.mitmproxy;
+    opens com.vanxacloud.appstudio.mitmproxy to info.picocli;
 }

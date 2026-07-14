@@ -21,7 +21,7 @@ dependencies {
     implementation(libs.logback)
     implementation(libs.picocli)
     implementation(libs.bundles.jetty)
-
+    implementation(libs.lanterna)
     testImplementation platform("org.junit:junit-bom:5.10.0")
     testImplementation('org.junit.jupiter:junit-jupiter')
     testRuntimeOnly('org.junit.platform:junit-platform-launcher')
@@ -34,12 +34,13 @@ test {
 
 application {
     mainModule.set("app")
-    mainClass.set("com.vanxacloud.appstudio.mitmproxy.cli.MitmProxyCli")
+//    mainClass.set("com.vanxacloud.appstudio.mitmproxy.MitmProxy")
+    mainClass.set("com.vanxacloud.appstudio.mitmproxy.ui.MitmProxyTerminal")
 }
 
 distributions {
     main {
-        distributionBaseName = 'mtlmproxy'
+        distributionBaseName = 'mitmproxy'
         distributionClassifier = 'bin'
     }
 }
