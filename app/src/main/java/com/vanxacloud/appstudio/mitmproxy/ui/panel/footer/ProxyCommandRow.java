@@ -1,4 +1,4 @@
-package com.vanxacloud.appstudio.mitmproxy.ui.footer.commandpanel;
+package com.vanxacloud.appstudio.mitmproxy.ui.panel.footer;
 
 /**
  * <p>
@@ -23,6 +23,6 @@ package com.vanxacloud.appstudio.mitmproxy.ui.footer.commandpanel;
  * @author Ivan Konstantinov <idkonst@protonmail.com>
  */
 public class ProxyCommandRow {
-    
+
 
 }
