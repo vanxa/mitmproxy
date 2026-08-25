@@ -5,11 +5,12 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.ActionListBox;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
-import com.vanxacloud.appstudio.mitmproxy.ui.panel.ResizeablePanel;
+import com.googlecode.lanterna.terminal.Terminal;
+import com.vanxacloud.appstudio.mitmproxy.ui.panel.AbstractResizeablePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FlowPanel extends Panel implements ResizeablePanel {
+public class FlowPanel extends AbstractResizeablePanel {
 
     private static final Logger log = LoggerFactory.getLogger(FlowPanel.class);
 
@@ -17,11 +18,11 @@ public class FlowPanel extends Panel implements ResizeablePanel {
     private final ActionListBox flows;
     private final Panel labelPanel;
 
-    public FlowPanel() {
-        super();
+    public FlowPanel(Terminal terminal) {
+        super(terminal);
         this.label = new Label("Flows");
         this.label.setBackgroundColor(new TextColor.RGB(171, 148, 148));
-        this.flows = new ActionListBox();
+        this.flows = new FlowListBox();
 
         this.labelPanel = new Panel();
         labelPanel.setFillColorOverride(new TextColor.RGB(171, 148, 148));

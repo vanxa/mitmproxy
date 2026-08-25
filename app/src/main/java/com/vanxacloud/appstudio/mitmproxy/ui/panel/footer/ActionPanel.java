@@ -4,8 +4,9 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
-import com.vanxacloud.appstudio.mitmproxy.ui.panel.ResizeablePanel;
-import com.vanxacloud.appstudio.mitmproxy.ui.panel.flow.FlowPanel;
+import com.googlecode.lanterna.terminal.Terminal;
+import com.vanxacloud.appstudio.mitmproxy.ui.panel.AbstractResizeablePanel;
+import com.vanxacloud.appstudio.mitmproxy.ui.panel.MITMPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,25 +37,30 @@ import org.slf4j.LoggerFactory;
  *
  * @author Ivan Konstantinov <idkonst@protonmail.com>
  */
-public class ActionPanel extends Panel implements ResizeablePanel {
+public class ActionPanel extends AbstractResizeablePanel {
 
     public static final Logger log = LoggerFactory.getLogger("action-panel");
     private final Label label;
-    private final FlowPanel flowPanel;
+    private final MITMPanel mainPanel;
     private final Panel actionLabelPanel;
+    private final ProxyCommandRow commandRow;
 
 
-    public ActionPanel(FlowPanel flowPanel) {
-        super();
-        this.flowPanel = flowPanel;
+    public ActionPanel(Terminal terminal, MITMPanel mainPanel) {
+        super(terminal);
+        this.mainPanel = mainPanel;
         this.actionLabelPanel = new Panel();
-        this.label = new Label(String.format("[%d/%d]", this.flowPanel.getSelectedItemIndex(), this.flowPanel.getNumberOfItems()));
+        this.label = new Label(String.format("[%d/%d]", this.mainPanel.getSelectedFlowIndex(), this.mainPanel.getNumberOfFlows()));
         this.label.setBackgroundColor(new TextColor.RGB(171, 148, 148));
 
 
         actionLabelPanel.setFillColorOverride(new TextColor.RGB(171, 148, 148));
         actionLabelPanel.addComponent(label);
         addComponent(actionLabelPanel);
+
+
+        commandRow = new ProxyCommandRow(terminal);
+        addComponent(commandRow);
     }
 
     @Override

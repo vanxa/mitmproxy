@@ -18,6 +18,7 @@ if (repositories.isEmpty()) {
 dependencies {
     jacocoAggregation project(':app')
     implementation(libs.apache.lang3)
+    implementation(libs.apache.collections)
     implementation(libs.logback)
     implementation(libs.picocli)
     implementation(libs.bundles.jetty)

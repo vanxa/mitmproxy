@@ -6,9 +6,7 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.vanxacloud.appstudio.mitmproxy.ui.flow.FlowHandler;
-import com.vanxacloud.appstudio.mitmproxy.ui.panel.ResizeablePanel;
-import com.vanxacloud.appstudio.mitmproxy.ui.panel.flow.FlowPanel;
-import com.vanxacloud.appstudio.mitmproxy.ui.panel.footer.ActionPanel;
+import com.vanxacloud.appstudio.mitmproxy.ui.panel.MITMPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,19 +18,20 @@ public class MitmProxyTerminal implements FlowHandler {
 
     private final Terminal terminal;
     private final TerminalScreen screen;
-    private final Panel mainPanel;
-    private final FlowPanel flowPanel;
-    private final ActionPanel commandPanel;
+    private final MITMPanel mainPanel;
 
-    public MitmProxyTerminal() throws IOException {
-        this.terminal = new DefaultTerminalFactory().createTerminal();
-        this.screen = new TerminalScreen(terminal);
-        this.mainPanel = new Panel();
-        this.flowPanel = new FlowPanel();
-        this.commandPanel = new ActionPanel(flowPanel);
+    private static final TerminalSize MINIMUM_TERMINAL_SIZE = new TerminalSize(80, 80);
 
-
+    public MitmProxyTerminal() {
+        try {
+            this.terminal = new DefaultTerminalFactory().createTerminal();
+            this.screen = new TerminalScreen(terminal);
+            this.mainPanel = new MITMPanel(terminal);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
     private void startScreen() throws IOException {
         log.info("Starting console");
         screen.startScreen();
@@ -41,23 +40,13 @@ public class MitmProxyTerminal implements FlowHandler {
         window.setHints(Arrays.asList(Window.Hint.FULL_SCREEN, Window.Hint.NO_DECORATIONS));
         // Create gui and start gui
         MultiWindowTextGUI gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace());
-
-        mainPanel.setFillColorOverride(null);
-        TerminalSize terminalSize = terminal.getTerminalSize();
-
-
-        mainPanel.addComponent(flowPanel);
-
-
-        mainPanel.addComponent(commandPanel);
-
+        log.debug("Setting up resize listener..");
         terminal.addResizeListener((terminal1, newSize) -> {
             // Update size variables or trigger redraw
             resizePanels(newSize);
         });
 
-
-        resizePanels(terminalSize);
+        resizePanels(terminal.getTerminalSize());
 
         window.setComponent(mainPanel);
 
@@ -75,12 +64,8 @@ public class MitmProxyTerminal implements FlowHandler {
 
     private void resizePanels(TerminalSize terminalSize) {
         log.trace("Terminal size changed to {}, resizing panels", terminalSize);
-        mainPanel.setPreferredSize(new TerminalSize(terminalSize.getColumns(), terminalSize.getRows() - 3));
-        mainPanel.getChildren().forEach(child -> {
-            if (child instanceof ResizeablePanel resizeablePanel) {
-                resizeablePanel.resize(terminalSize);
-            }
-        });
+        mainPanel.resize(terminalSize);
+        log.trace("Resizing complete");
 
     }
 
@@ -91,8 +76,9 @@ public class MitmProxyTerminal implements FlowHandler {
 
     @Override
     public void addFlow(Object flow) {
-        flowPanel.addFlow(flow);
+        mainPanel.addFlow(flow);
         refreshScreen();
     }
+
 }
 
